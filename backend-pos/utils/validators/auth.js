@@ -2,7 +2,7 @@
 const { body } = require("express-validator");
 
 // import prisma
-const prisma = require("../prisma/client");
+const prisma = require("../../prisma/client");
 
 // definisikan validasi untuk login
 const validateLogin = [
