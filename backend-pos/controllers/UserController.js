@@ -47,7 +47,7 @@ const findUsers = async (req, res) => {
     const totalPages = Math.ceil(totalUsers / limit);
 
     // mengirim respons
-    req.status(200).send({
+    res.status(200).send({
       // meta untuk response json
       meta: {
         success: true,
