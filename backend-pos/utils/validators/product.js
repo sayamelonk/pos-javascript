@@ -2,7 +2,7 @@
 const { body, check } = require("express-validator");
 
 // import prisma client
-const prisma = require("../prisma/client");
+const prisma = require("../../prisma/client");
 
 // define validation for create and update product
 const validateProduct = [
