@@ -79,4 +79,4 @@ const login = async (req, res) => {
 };
 
 // mengekspor fungsi login agar dapat digunakan di tempat lain
-module.exports = login;
+module.exports = { login };
