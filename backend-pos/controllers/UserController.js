@@ -4,6 +4,9 @@ const express = require("express");
 // import prisma client
 const prisma = require("../prisma/client");
 
+// import bcrypt
+const bcrypt = require("bcryptjs");
+
 // fungsi findUsers
 const findUsers = async (req, res) => {
   try {
@@ -75,4 +78,42 @@ const findUsers = async (req, res) => {
   }
 };
 
-module.exports = { findUsers };
+// fungsi createUser
+const createUser = async (req, res) => {
+  // hash password
+  const hashedPassword = await bcrypt.hash(req.body.password, 10);
+
+  try {
+    // menyisipkan data pengguna baru
+    const user = await prisma.user.create({
+      data: {
+        name: req.body.name,
+        email: req.body.email,
+        password: hashedPassword,
+      },
+    });
+
+    // mengirimkan respons
+    res.status(201).send({
+      // meta untuk response json
+      meta: {
+        success: true,
+        message: "berhasil membuat pengguna",
+      },
+      // data
+      data: user,
+    });
+  } catch (error) {
+    res.status(500).send({
+      // meta untuk response json
+      meta: {
+        success: false,
+        message: "Terjadi kesalahan di server",
+      },
+      // data errors
+      errors: error,
+    });
+  }
+};
+
+module.exports = { findUsers, createUser };
