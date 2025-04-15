@@ -116,4 +116,142 @@ const createUser = async (req, res) => {
   }
 };
 
-module.exports = { findUsers, createUser };
+// fungsi findUserById
+const findUserById = async (req, res) => {
+  // mendapatkan ID dari parameter
+  const { id } = req.params;
+
+  try {
+    // mengambil pengguna berdasarkan ID
+    const user = await prisma.user.findUnique({
+      where: {
+        id: Number(id),
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+      },
+    });
+
+    if (!user)
+      return res.status(404).send({
+        // meta untuk response json
+        meta: {
+          success: false,
+          message: `Pengguna dengan ID: ${id} tidak ditemukan`,
+        },
+      });
+
+    // mengirimkan respons
+    res.status(200).send({
+      // meta untuk response json
+      meta: {
+        success: true,
+        message: `Berhasil mengambil pengguna dengan ID: ${id}`,
+      },
+      // data
+      data: user,
+    });
+  } catch (error) {
+    res.status(500).send({
+      // meta untuk response json
+      meta: {
+        success: false,
+        message: "Terjadi kesalahan di server",
+      },
+      // data errors
+      errors: error,
+    });
+  }
+};
+
+// fungsi updateUser
+const updateUser = async (req, res) => {
+  // mendapatkan ID dari parameter
+  const { id } = req.params;
+
+  // membuat objek data yang akan diupdate
+  let userData = {
+    name: req.body.name,
+    email: req.body.email,
+    updated_at: new Date(),
+  };
+
+  try {
+    // only hash and update the password if it's provided
+    if (req.body.password !== "") {
+      // hash password
+      const hashedPassword = await bcrypt.hash(req.body.password, 10);
+
+      // tambahkan password ke objek data
+      userData.password = hashedPassword;
+    }
+
+    // mengupdate pengguna
+    const user = await prisma.user.update({
+      where: {
+        id: Number(id),
+      },
+      data: userData,
+    });
+
+    res.status(200).send({
+      meta: {
+        success: true,
+        message: "pengguna berhasil diperbarui",
+      },
+      data: user,
+    });
+  } catch (error) {
+    res.status(500).send({
+      meta: {
+        success: false,
+        message: "terjadi kesalahan di server",
+      },
+      errors: error,
+    });
+  }
+};
+
+// fungsi deleteUser
+const deleteUser = async (req, res) => {
+  // mendapatkan ID dari parameter
+  const { id } = req.params;
+
+  try {
+    // menghapus pengguna
+    await prisma.user.delete({
+      where: {
+        id: Number(id),
+      },
+    });
+
+    // mengirimkan respons
+    res.status(200).send({
+      // meta untuk response json
+      meta: {
+        success: true,
+        message: "pengguna berhasil dihapus",
+      },
+    });
+  } catch (error) {
+    res.status(500).send({
+      // meta untuk response json
+      meta: {
+        success: false,
+        message: "Terjadi kesalahan di server",
+      },
+      // data errors
+      errors: error,
+    });
+  }
+};
+
+module.exports = {
+  findUsers,
+  createUser,
+  findUserById,
+  updateUser,
+  deleteUser,
+};
