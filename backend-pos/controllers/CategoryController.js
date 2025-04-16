@@ -198,8 +198,8 @@ const updateCategory = async (req, res) => {
       });
 
       // cek jika ada file gambar
-      if (category.name) {
-        // hapus file gambar lama
+      if (category.image) {
+        // hapus gambar lama
         fs.unlinkSync(category.image);
       }
     }
@@ -225,7 +225,7 @@ const updateCategory = async (req, res) => {
   } catch (error) {
     // jika terjadi kesalahan, kirim respons kesalahan internal server
     res.status(500).send({
-      // meta untuk respons yang diperbarui
+      // meta untuk respons dalam format JSON
       meta: {
         success: false,
         message: "Terjadi kesalahan di server",
