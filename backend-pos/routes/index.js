@@ -5,8 +5,16 @@ const express = require("express");
 const router = express.Router();
 
 // Import validators and middleware
-const { validateLogin, validateUser } = require("../utils/validators");
-const { handleValidationErrors, verifyToken } = require("../middlewares");
+const {
+  validateLogin,
+  validateUser,
+  validateCategory,
+} = require("../utils/validators");
+const {
+  handleValidationErrors,
+  verifyToken,
+  upload,
+} = require("../middlewares");
 
 // Import controllers
 const loginController = require("../controllers/LoginController");
@@ -61,6 +69,34 @@ const routes = [
     path: "/categories",
     middlewares: [verifyToken],
     handler: categoryController.findCategories,
+  },
+  {
+    method: "post",
+    path: "/categories",
+    middlewares: [
+      verifyToken,
+      upload.single("image"),
+      validateCategory,
+      handleValidationErrors,
+    ],
+    handler: categoryController.createCategory,
+  },
+  {
+    method: "get",
+    path: "/categories/:id",
+    middlewares: [verifyToken],
+    handler: categoryController.findCategoryById,
+  },
+  {
+    method: "put",
+    path: "/categories/:id",
+    middlewares: [
+      verifyToken,
+      upload.single("image"),
+      validateCategory,
+      handleValidationErrors,
+    ],
+    handler: categoryController.updateCategory,
   },
 ];
 
