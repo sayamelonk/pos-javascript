@@ -18,7 +18,7 @@ const validateProduct = [
       });
       if (
         existingProduct &&
-        (!req.params.id || existingProduct.id !== Number(req.params.id))
+        (!req.params.id || existingProduct.id !== parseInt(req.params.id))
       ) {
         throw new Error("Barcode must be unique");
       }
@@ -34,9 +34,9 @@ const validateProduct = [
     }
     return true;
   }),
-  body("buy_price").isNumeric().withMessage("Buy Price is required"),
-  body("sell_price").isNumeric().withMessage("Sell Price is required"),
-  body("stock").isNumeric().withMessage("Stock is required"),
+  body("buy_price").notEmpty().withMessage("Buy Price is required"),
+  body("sell_price").notEmpty().withMessage("Sell Price is required"),
+  body("stock").notEmpty().withMessage("Stock is required"),
 ];
 
 module.exports = {
