@@ -20,6 +20,7 @@ const {
 const loginController = require("../controllers/LoginController");
 const userController = require("../controllers/UserController");
 const categoryController = require("../controllers/CategoryController");
+const prodductController = require("../controllers/ProductController");
 
 // Define routes
 const routes = [
@@ -109,6 +110,14 @@ const routes = [
     path: "/categories-all",
     middlewares: [verifyToken],
     handler: categoryController.allCategories,
+  },
+
+  // product routes
+  {
+    method: "get",
+    path: "/products",
+    middlewares: [verifyToken],
+    handler: prodductController.findProducts,
   },
 ];
 
