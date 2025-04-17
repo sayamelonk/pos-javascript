@@ -161,7 +161,7 @@ const routes = [
     handler: prodductController.findProductsByCategoryId,
   },
   {
-    method: "get",
+    method: "post",
     path: "/products-by-barcode",
     middlewares: [verifyToken],
     handler: prodductController.findProductByBarcode,

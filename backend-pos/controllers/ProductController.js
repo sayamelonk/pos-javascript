@@ -414,7 +414,7 @@ const findProductByBarcode = async (req, res) => {
     // mengambil produk berdasarkan barcode
     const product = await prisma.product.findMany({
       where: {
-        category_id: Number(id),
+        barcode: req.body.barcode,
       },
       select: {
         id: true,
@@ -445,7 +445,7 @@ const findProductByBarcode = async (req, res) => {
         // meta untuk response json
         meta: {
           success: false,
-          message: `Produk dengan barcode: ${req.body.barcode} tersebut tidak ditemukan`,
+          message: `Produk dengan barcode: ${req.body.barcode} tidak ditemukan`,
         },
       });
     }
