@@ -131,6 +131,12 @@ const routes = [
     ],
     handler: prodductController.createProduct,
   },
+  {
+    method: "get",
+    path: "/products/:id",
+    middlewares: [verifyToken],
+    handler: prodductController.findProductById,
+  },
 ];
 
 // Helper function to create routes

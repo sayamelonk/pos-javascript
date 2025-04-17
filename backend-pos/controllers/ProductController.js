@@ -133,8 +133,77 @@ const createProduct = async (req, res) => {
   }
 };
 
+// fungsi findProductById untuk mengambil produk berdasarkan ID
+const findProductById = async (req, res) => {
+  // mengambil ID dari parameter
+  const { id } = req.params;
+
+  try {
+    // mengambil produk berdasarkan ID\
+    const product = await prisma.product.findUnique({
+      where: {
+        id: Number(id),
+      },
+      select: {
+        id: true,
+        barcode: true,
+        title: true,
+        description: true,
+        buy_price: true,
+        sell_price: true,
+        stock: true,
+        image: true,
+        category_id: true,
+        created_at: true,
+        updated_at: true,
+        category: {
+          select: {
+            name: true,
+            description: true,
+            image: true,
+            created_at: true,
+            updated_at: true,
+          },
+        },
+      },
+    });
+    if (!product) {
+      res.status(404).send({
+        // meta untuk response json
+        meta: {
+          success: false,
+          message: `Produk dengan ID: ${id} tidak ditemukan`,
+        },
+      });
+    }
+
+    // mengirimkan respons
+    res.status(200).send({
+      // meta untuk response json
+      meta: {
+        success: true,
+        message: `Berhasil mendapatkan produk dengan ID: ${id}`,
+      },
+      // data produk
+      data: product,
+    });
+  } catch (error) {
+    // mengirimkan respons jika terjadi kesalahan
+    res.status(500).send({
+      // meta untuk response json
+      meta: {
+        success: false,
+        message: "Terjadi kesalahan di server",
+      },
+      // data errors
+      errors: error,
+    });
+  }
+};
+
 // mengekspor fungsi-fungsi untuk digunakan di file lain
 module.exports = {
   findProducts,
   createProduct,
+  findProductById,
 };
