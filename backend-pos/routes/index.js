@@ -104,6 +104,12 @@ const routes = [
     middlewares: [verifyToken],
     handler: categoryController.deleteCategory,
   },
+  {
+    method: "get",
+    path: "/categories-all",
+    middlewares: [verifyToken],
+    handler: categoryController.allCategories,
+  },
 ];
 
 // Helper function to create routes

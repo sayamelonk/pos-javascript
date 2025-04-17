@@ -302,6 +302,48 @@ const deleteCategory = async (req, res) => {
   }
 };
 
+// fungsi allCategories
+const allCategories = async (req, res) => {
+  try {
+    // ambil kategori
+    const categories = await prisma.category.findMany({
+      select: {
+        id: true,
+        name: true,
+        image: true,
+        description: true,
+        created_at: true,
+        updated_at: true,
+      },
+      orderBy: {
+        id: "desc",
+      },
+    });
+
+    // kirim respons
+    res.status(200).send({
+      // meta untuk respons dalam format JSON
+      meta: {
+        success: true,
+        message: "Berhasil mendapatkan semua kategori",
+      },
+      // data kategori
+      data: categories,
+    });
+  } catch (error) {
+    // jika terjadi kesalahan, kirim respons kesalahan internal server
+    res.status(500).send({
+      // meta untuk respons dalam format JSON
+      meta: {
+        success: false,
+        message: "Terjadi kesalahan di server",
+      },
+      // data kesalahan
+      errors: error,
+    });
+  }
+};
+
 // ekspor fungsi-fungsi agar dapat digunakan di temoat lain
 module.exports = {
   findCategories,
@@ -309,4 +351,5 @@ module.exports = {
   findCategoryById,
   updateCategory,
   deleteCategory,
+  allCategories,
 };
