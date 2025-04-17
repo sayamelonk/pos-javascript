@@ -12,9 +12,7 @@ const validateProduct = [
     .custom(async (barcode, { req }) => {
       // Use findFirst instead of findUnique
       const existingProduct = await prisma.product.findFirst({
-        where: {
-          barcode: barcode,
-        },
+        where: { barcode: barcode },
       });
       if (
         existingProduct &&
@@ -39,6 +37,4 @@ const validateProduct = [
   body("stock").notEmpty().withMessage("Stock is required"),
 ];
 
-module.exports = {
-  validateProduct,
-};
+module.exports = { validateProduct };
