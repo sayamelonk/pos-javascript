@@ -98,6 +98,12 @@ const routes = [
     ],
     handler: categoryController.updateCategory,
   },
+  {
+    method: "delete",
+    path: "/categories/:id",
+    middlewares: [verifyToken],
+    handler: categoryController.deleteCategory,
+  },
 ];
 
 // Helper function to create routes
