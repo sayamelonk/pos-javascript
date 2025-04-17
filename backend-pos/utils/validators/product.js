@@ -1,16 +1,16 @@
-// import express validator
+// Import express validator
 const { body, check } = require("express-validator");
 
-// import prisma client
+// Import prisma client
 const prisma = require("../../prisma/client");
 
-// define validation for create and update product
+// Define validation for create and update product
 const validateProduct = [
   body("barcode")
     .notEmpty()
     .withMessage("Barcode is required")
-    .custom(async (value, { req }) => {
-      // use findFirst instead of findUnique
+    .custom(async (barcode, { req }) => {
+      // Use findFirst instead of findUnique
       const existingProduct = await prisma.product.findFirst({
         where: {
           barcode: barcode,
