@@ -9,6 +9,7 @@ const {
   validateLogin,
   validateUser,
   validateCategory,
+  validateProduct,
 } = require("../utils/validators");
 const {
   handleValidationErrors,
@@ -118,6 +119,17 @@ const routes = [
     path: "/products",
     middlewares: [verifyToken],
     handler: prodductController.findProducts,
+  },
+  {
+    method: "post",
+    path: "/products",
+    middlewares: [
+      verifyToken,
+      upload.single("image"),
+      validateProduct,
+      handleValidationErrors,
+    ],
+    handler: prodductController.createProduct,
   },
 ];
 
