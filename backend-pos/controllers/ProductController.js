@@ -333,6 +333,146 @@ const deleteProduct = async (req, res) => {
   }
 };
 
+// fungsi findProductsByCategory untuk mengambil daftar produk berdasarkan kategori
+const findProductsByCategoryId = async (req, res) => {
+  // mengambil ID kategori dari parameter
+  const { id } = req.params;
+
+  try {
+    // mengambil nilai halaman dan limit dari parameter query, dengan nilai default
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 5;
+    const skip = (page - 1) * limit;
+
+    // mengambil produk berdasarkan kategori ID
+
+    const products = await prisma.product.findMany({
+      where: {
+        category_id: Number(id),
+      },
+      select: {
+        id: true,
+        barcode: true,
+        title: true,
+        description: true,
+        buy_price: true,
+        sell_price: true,
+        stock: true,
+        image: true,
+        category_id: true,
+        created_at: true,
+        updated_at: true,
+      },
+      skip: skip,
+      take: limit,
+    });
+
+    // mengambil jumlah total produk untuk paginasi
+    const totalProducts = await prisma.product.count({
+      where: {
+        category_id: Number(id), // hitung produk berdasarkan kategori ID
+      },
+    });
+
+    // menghitung total halaman
+    const totalPages = Math.ceil(totalProducts / limit);
+
+    // mengirimkan respons
+    res.status(200).send({
+      // meta untuk response json
+      meta: {
+        success: true,
+        message: `Berhasil mendapatkan produk dengan kategori ID: ${id}`,
+      },
+      // data produk
+      data: products,
+      // informasi paginasi
+      pagination: {
+        currentPage: page,
+        totalPages: totalPages,
+        total: totalProducts,
+        limit: limit,
+      },
+    });
+  } catch (error) {
+    // mengirimkan respons jika terjadi kesalahan
+    res.status(500).send({
+      // meta untuk response json
+      meta: {
+        success: false,
+        message: "Terjadi kesalahan di server",
+      },
+      // data errors
+      errors: error,
+    });
+  }
+};
+
+// fungsi findProductByBarcode untuk mengambil produk berdasarkan barcode
+const findProductByBarcode = async (req, res) => {
+  try {
+    // mengambil produk berdasarkan barcode
+    const product = await prisma.product.findMany({
+      where: {
+        category_id: Number(id),
+      },
+      select: {
+        id: true,
+        barcode: true,
+        title: true,
+        description: true,
+        buy_price: true,
+        sell_price: true,
+        stock: true,
+        image: true,
+        category_id: true,
+        created_at: true,
+        updated_at: true,
+        category: {
+          select: {
+            name: true,
+            description: true,
+            image: true,
+            created_at: true,
+            updated_at: true,
+          },
+        },
+      },
+    });
+
+    if (!product) {
+      return res.status(404).send({
+        // meta untuk response json
+        meta: {
+          success: false,
+          message: `Produk dengan barcode: ${req.body.barcode} tersebut tidak ditemukan`,
+        },
+      });
+    }
+
+    // mengirimkan respons
+    res.status(200).send({
+      // meta untuk response json
+      meta: {
+        success: true,
+        message: `Berhasil mendapatkan produk dengan barcode: ${req.body.barcode}`,
+      },
+      // data produk
+      data: product,
+    });
+  } catch (error) {
+    // mengirimkan respons jika terjadi kesalahan
+    res.status(500).send({
+      // meta untuk response json
+      meta: {
+        success: false,
+        message: "Terjadi kesalahan di server",
+      },
+      // data errors
+      errors: error,
+    });
+  }
+};
 // mengekspor fungsi-fungsi untuk digunakan di file lain
 module.exports = {
   findProducts,
@@ -340,4 +480,6 @@ module.exports = {
   findProductById,
   updateProduct,
   deleteProduct,
+  findProductsByCategoryId,
+  findProductByBarcode,
 };

@@ -154,6 +154,18 @@ const routes = [
     middlewares: [verifyToken],
     handler: prodductController.deleteProduct,
   },
+  {
+    method: "get",
+    path: "/products-by-category/:id",
+    middlewares: [verifyToken],
+    handler: prodductController.findProductsByCategoryId,
+  },
+  {
+    method: "get",
+    path: "/products-by-barcode",
+    middlewares: [verifyToken],
+    handler: prodductController.findProductByBarcode,
+  },
 ];
 
 // Helper function to create routes
