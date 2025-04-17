@@ -41,7 +41,7 @@ model Category {
 model Product {
   id                  Int                 @id @default(autoincrement())
   category_id         Int
-  imaage              String?
+  image               String?
   barcode             String              @unique
   title               String
   description         String?
@@ -120,7 +120,7 @@ model Profit {
   transaction_id Int
   total          Float
   created_at     DateTime    @default(now())
-  Transaction    Transaction @relation(fields: [transaction_id], references: [id], onDelete: Cascade)
+  transaction    Transaction @relation(fields: [transaction_id], references: [id], onDelete: Cascade)
 
   @@map("profits")
 }
