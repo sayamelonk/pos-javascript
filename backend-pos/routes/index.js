@@ -11,6 +11,7 @@ const {
   validateCategory,
   validateProduct,
   validateCustomer,
+  validateCart,
   validateTransaction,
 } = require("../utils/validators");
 const {
@@ -220,7 +221,7 @@ const routes = [
   {
     method: "post",
     path: "/carts",
-    middlewares: [verifyToken, handleValidationErrors, handleValidationErrors],
+    middlewares: [verifyToken, validateCart, handleValidationErrors],
     handler: cartController.createCart,
   },
   {
