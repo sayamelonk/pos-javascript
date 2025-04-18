@@ -24,6 +24,7 @@ const userController = require("../controllers/UserController");
 const categoryController = require("../controllers/CategoryController");
 const prodductController = require("../controllers/ProductController");
 const customerController = require("../controllers/CustomerController");
+const cartController = require("../controllers/CartController");
 
 // Define routes
 const routes = [
@@ -205,7 +206,15 @@ const routes = [
     path: "/customers-all",
     middlewares: [verifyToken],
     handler: customerController.allCustomers,
-  }
+  },
+
+  // cart routes
+  {
+    method: "get",
+    path: "/carts",
+    middlewares: [verifyToken],
+    handler: cartController.findCarts,
+  },
 ];
 
 // Helper function to create routes
