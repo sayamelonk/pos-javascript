@@ -10,6 +10,7 @@ const {
   validateUser,
   validateCategory,
   validateProduct,
+  validateCustomer,
 } = require("../utils/validators");
 const {
   handleValidationErrors,
@@ -22,6 +23,7 @@ const loginController = require("../controllers/LoginController");
 const userController = require("../controllers/UserController");
 const categoryController = require("../controllers/CategoryController");
 const prodductController = require("../controllers/ProductController");
+const customerController = require("../controllers/CustomerController");
 
 // Define routes
 const routes = [
@@ -165,6 +167,26 @@ const routes = [
     path: "/products-by-barcode",
     middlewares: [verifyToken],
     handler: prodductController.findProductByBarcode,
+  },
+
+  // customer routes
+  {
+    method: "get",
+    path: "/customers",
+    middlewares: [verifyToken],
+    handler: customerController.findCustomers,
+  },
+  {
+    method: "post",
+    path: "/customers",
+    middlewares: [verifyToken, validateCustomer, handleValidationErrors],
+    handler: customerController.createCustomer,
+  },
+  {
+    method: "get",
+    path: "/customers/:id",
+    middlewares: [verifyToken],
+    handler: customerController.findCustomerById,
   },
 ];
 
