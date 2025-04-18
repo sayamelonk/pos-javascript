@@ -215,6 +215,18 @@ const routes = [
     middlewares: [verifyToken],
     handler: cartController.findCarts,
   },
+  {
+    method: "post",
+    path: "/carts",
+    middlewares: [verifyToken, handleValidationErrors, handleValidationErrors],
+    handler: cartController.createCart,
+  },
+  {
+    method: "delete",
+    path: "/carts/:id",
+    middlewares: [verifyToken],
+    handler: cartController.deleteCart,
+  },
 ];
 
 // Helper function to create routes
