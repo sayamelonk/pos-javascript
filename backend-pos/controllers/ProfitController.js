@@ -137,11 +137,11 @@ const exportProfit = async (req, res) => {
       };
     });
 
-    // menambahkan data worksheet
-    worksheet.forEach((profit) => {
+    // Menambahkan data ke worksheet
+    profits.forEach((profit) => {
       worksheet.addRow({
         created_at: profit.created_at,
-        invoice: profit.invoice,
+        invoice: profit.transaction.invoice,
         total: moneyFormat(profit.total),
       });
     });
@@ -150,7 +150,7 @@ const exportProfit = async (req, res) => {
     const totalRow = worksheet.addRow({
       created_at: "",
       invoice: "TOTAL",
-      total: `Rp ${moneyFormat(total._sum.total)}`,
+      total: `${moneyFormat(total._sum.total)}`,
     });
 
     // style total row
