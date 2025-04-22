@@ -7,6 +7,9 @@ import { useEffect } from "react";
 // import theme store
 import { useStore } from "./stores/theme";
 
+// import routes
+import AppRoutes from "./routes";
+
 function App() {
   // destructure state "theme" from useStore
   const { theme } = useStore();
@@ -18,6 +21,7 @@ function App() {
 
   return (
     <>
+      <AppRoutes />
       <Toaster />
     </>
   );
