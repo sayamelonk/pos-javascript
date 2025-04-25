@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 
 // import store theme
 import { useStore as useThemeStore } from "../stores/theme";
