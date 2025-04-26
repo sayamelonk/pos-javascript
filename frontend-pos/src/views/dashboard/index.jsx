@@ -45,10 +45,10 @@ export default function Dashboard() {
 
         // assign response data to state "countSalesToday", "sumSalesToday", "sumSalesWeek", "salesDate", "salesTotal"
         setCountSalesToday(response.data.data.count_sales_today);
-        setSumSalesToday(response.data.data.count_sales_today);
-        setSumSalesWeek(response.data.data.count_sales_today);
-        setSalesDate(response.data.data.count_sales_today);
-        setSalesTotal(response.data.data.count_sales_today);
+        setSumSalesToday(response.data.data.sum_sales_today);
+        setSumSalesWeek(response.data.data.sum_sales_week);
+        setSalesDate(response.data.data.sales.sales_date);
+        setSalesTotal(response.data.data.sales.sales_total);
 
         //assign response data to state "sumProfitsToday", "sumProfitsWeek", "profitsDate", "profitsTotal"
         setSumProfitsToday(response.data.data.sum_profits_today);
