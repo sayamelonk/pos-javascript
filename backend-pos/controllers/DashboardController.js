@@ -50,13 +50,13 @@ const getDashboardData = async (req, res) => {
 
     // mengambil data profit dalam 7 hari terakhir dan mengelompokkan berdasarkan tanggal
     const chartProfitsWeek = await prisma.profit.groupBy({
-      by: ["created_at"], // mengelompokkan berdasarkan tanggal pembuatan
+      by: ["created_at"], // Mengelompokkan berdasarkan tanggal pembuatan
       _sum: {
-        total: true, // menjumlahkan total profit
+        total: true, // Menjumlahkan total keuntungan
       },
       where: {
         created_at: {
-          gte: week, // hanya mengambil data dari 7 hari terakhir
+          gte: week, // Hanya mengambil data dari 7 hari terakhir
         },
       },
     });
@@ -178,8 +178,8 @@ const getDashboardData = async (req, res) => {
         count_sales_today: countSalesToday,
         sum_sales_today: sumSalesToday._sum.grand_total || 0,
         sum_sales_week: sumSalesWeek || 0,
-        sum_profit_today: sumProfitsToday._sum.total || 0,
-        sum_profit_week: sumProfitsWeek || 0,
+        sum_profits_today: sumProfitsToday._sum.total || 0,
+        sum_profits_week: sumProfitsWeek || 0,
         products_limit_stock: productsLimitStock,
         best_selling_products: bestSellingProducts,
         sales: {
