@@ -177,7 +177,7 @@ const getDashboardData = async (req, res) => {
       data: {
         count_sales_today: countSalesToday,
         sum_sales_today: sumSalesToday._sum.grand_total || 0,
-        sum_sales_week: sumProfitsWeek || 0,
+        sum_sales_week: sumSalesWeek || 0,
         sum_profit_today: sumProfitsToday._sum.total || 0,
         sum_profit_week: sumProfitsWeek || 0,
         products_limit_stock: productsLimitStock,
