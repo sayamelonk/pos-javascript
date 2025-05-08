@@ -19,7 +19,7 @@ const createTransaction = async (req, res) => {
     const cash = parseInt(req.body.cash);
     const change = parseInt(req.body.change);
     const discount = parseInt(req.body.discount);
-    grandTotal = parseInt(req.body.grand_total);
+    const grandTotal = parseInt(req.body.grand_total);
 
     // memeriksa nilai NaN dan mengembalikan error jika ditemukan
     if (
@@ -32,7 +32,7 @@ const createTransaction = async (req, res) => {
       return res.status(400).send({
         meta: {
           success: false,
-          message: "Data input tidak valid. Silahkan periksa perminyaan Anda",
+          message: "Data input tidak valid. Silahkan periksa permintaan Anda",
         },
       });
     }
@@ -52,12 +52,8 @@ const createTransaction = async (req, res) => {
 
     // mengambilkan item keranjang untuk kasir saat ini
     const carts = await prisma.cart.findMany({
-      where: {
-        cashier_id: cashierId,
-      },
-      include: {
-        product: true,
-      },
+      where: { cashier_id: cashierId },
+      include: { product: true },
     });
 
     // memproses setiap item keranjang
@@ -65,7 +61,7 @@ const createTransaction = async (req, res) => {
       // memastikan harga adalah float
       const price = parseFloat(cart.price);
 
-      // menyusipkan detail transaksi
+      // menyisipkan detail transaksi
       await prisma.transactionDetail.create({
         data: {
           transaction_id: transaction.id,
@@ -75,7 +71,7 @@ const createTransaction = async (req, res) => {
         },
       });
 
-      // menghipus keuntungan
+      // menghitung keuntungan
       const totalBuyPrice = cart.product.buy_price * cart.qty;
       const totalSellPrice = cart.product.sell_price * cart.qty;
       const profits = totalSellPrice - totalBuyPrice;
@@ -90,22 +86,14 @@ const createTransaction = async (req, res) => {
 
       // memperbarui stok produk
       await prisma.product.update({
-        where: {
-          id: cart.product_id,
-        },
-        data: {
-          stock: {
-            decrement: cart.qty,
-          },
-        },
+        where: { id: cart.product_id },
+        data: { stock: { decrement: cart.qty } },
       });
     }
 
     // menghapus item keranjang untuk kasir
     await prisma.cart.deleteMany({
-      where: {
-        cashier_id: cashierId,
-      },
+      where: { cashier_id: cashierId },
     });
 
     // mengirimkan response sukses
@@ -118,7 +106,6 @@ const createTransaction = async (req, res) => {
     });
   } catch (error) {
     res.status(500).send({
-      // meta untuk repons JSON
       meta: {
         success: false,
         message: "Terjadi kesalahan di server",
