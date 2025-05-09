@@ -16,6 +16,9 @@ import moneyFormat from "../../utils/moneyFormat";
 // import chart apex
 import ApexCharts from "apexcharts";
 
+// import generateRandomColors
+import generateRandomColors from "../../utils/generateRandomColors";
+
 export default function Dashboard() {
   // state sales
   const [countSalesToday, setCountSalesToday] = useState(0);
@@ -29,6 +32,12 @@ export default function Dashboard() {
   const [sumProfitsWeek, setSumProfitsWeek] = useState(0);
   const [profitsDate, setProfitsDate] = useState([]);
   const [profitsTotal, setProfitsTotal] = useState([]);
+
+  // state productsBestSelling
+  const [productsBestSelling, setProductsBestSelling] = useState([]);
+
+  // state productsLimitStock
+  const [productsLimitStock, setProductsLimitStock] = useState([]);
 
   // function fetch data dashboard
   const fetchData = async () => {
@@ -55,6 +64,12 @@ export default function Dashboard() {
         setSumProfitsWeek(response.data.data.sum_profits_week);
         setProfitsDate(response.data.data.profits.profits_date);
         setProfitsTotal(response.data.data.profits.profits_total);
+
+        // assign response data to state "productsBestSelling"
+        setProductsBestSelling(response.data.data.best_selling_products);
+
+        // assign response data to state "productsLimitStock"
+        setProductsLimitStock(response.data.data.products_limit_stock);
       } catch (error) {
         console.error("there was an error fetching the data!", error);
       }
@@ -127,13 +142,49 @@ export default function Dashboard() {
       labels: profitsDate,
     });
 
+    // transform data
+    const series = productsBestSelling.map((product) => product.total);
+    const labels = productsBestSelling.map((product) => product.title);
+
+    const bestProductsChart = initializeChart("chart-best-products", {
+      chart: {
+        type: "donut",
+        height: 350, // adjust the height as needed
+      },
+      series: series,
+      labels: labels,
+      responsive: [
+        {
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: 200,
+            },
+            legend: {
+              position: "bottom",
+            },
+          },
+        },
+      ],
+      colors: generateRandomColors(productsBestSelling.length), // customize colors as needed
+      legend: {
+        position: "bottom",
+      },
+      tooltip: {
+        y: {
+          formatter: (val) => `${val}`,
+        },
+      },
+    });
+
     // cleaanup charts on component unmount
     return () => {
       salesChart.destroy();
       profitsChart.destroy();
+      bestProductsChart.destroy();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [salesDate, salesTotal, profitsDate, profitsTotal]);
+  }, [salesDate, salesTotal, profitsDate, profitsTotal, productsBestSelling]);
 
   return (
     <LayoutAdmin>
@@ -213,6 +264,53 @@ export default function Dashboard() {
                     </div>
                   </div>
                   <div id="chart-profits" className="chart-sm"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="row mt-5">
+            <div className="col-md-8">
+              <div className="card rounded">
+                <div className="card-header p-3">
+                  <h3 className="mb-0 text-uppercase">Best Selling Product</h3>
+                </div>
+                <div className="card-body">
+                  <div id="chart-best-products"></div>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-4">
+              <div className="card rounded">
+                <div className="card-header p-3">
+                  <h3 className="mb-0 text-uppercase">Products Limit Stock</h3>
+                </div>
+                <div className="card-body scrollable-card-body">
+                  <div className="row">
+                    {productsLimitStock.map((product) => (
+                      <div className="col-12 mb-2" key={product.id}>
+                        <div className="card rounded">
+                          <div className="card-body d-flex align-items-center">
+                            <img
+                              src={`${import.meta.env.VITE_APP_BASEURL}/${
+                                product.image
+                              }`}
+                              alt={product.title}
+                              width={50}
+                              height={50}
+                              className="me-3"
+                            />
+                            <div className="flex-fill">
+                              <h4 className="mb-0">{product.title}</h4>
+                              <hr className="mb-1 mt-1" />
+                              <p className="text-danger mb-0">
+                                Stock: {product.stock}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
