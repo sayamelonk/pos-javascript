@@ -16,8 +16,11 @@ import PaginationComponent from "../../components/pagination";
 // import create category
 import CategoryCreate from "./create";
 
-// import toast
+// import edit category
 import CategoryEdit from "./edit";
+
+// import delete button
+import DeleteButton from "../../components/DeleteButton";
 
 export default function CategoriesIndex() {
   // state categories
@@ -70,7 +73,7 @@ export default function CategoriesIndex() {
   // call function "fetchData"
   useEffect(() => {
     fetchData();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // function "searchHandler"
@@ -159,6 +162,11 @@ export default function CategoriesIndex() {
                               <div className="btn-list flex-nowrap">
                                 <CategoryEdit
                                   categoryId={category.id}
+                                  fetchData={fetchData}
+                                />
+                                <DeleteButton
+                                  id={category.id}
+                                  endpoint="/api/categories"
                                   fetchData={fetchData}
                                 />
                               </div>
