@@ -70,6 +70,7 @@ export default function CategoriesIndex() {
   // call function "fetchData"
   useEffect(() => {
     fetchData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // function "searchHandler"
@@ -157,7 +158,7 @@ export default function CategoriesIndex() {
                             <td>
                               <div className="btn-list flex-nowrap">
                                 <CategoryEdit
-                                  category={category.id}
+                                  categoryId={category.id}
                                   fetchData={fetchData}
                                 />
                               </div>

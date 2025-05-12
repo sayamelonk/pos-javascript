@@ -35,9 +35,9 @@ export default function CategoryEdit({ fetchData, categoryId }) {
         Api.defaults.headers.common["Authorization"] = token;
         const response = await Api.get(`/api/categories/${categoryId}`);
 
-        const cetegory = response.data.data;
-        setName(cetegory.name);
-        setDescription(cetegory.description);
+        const category = response.data.data;
+        setName(category.name);
+        setDescription(category.description);
         // image is optional, handled separately if needed
       } catch (error) {
         console.error("There was an error fetching the data!", error);
