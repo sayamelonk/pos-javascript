@@ -127,7 +127,7 @@ export default function CustomersIndex() {
             <div className="col-12">
               <div className="card">
                 <div className="table-responsive">
-                  <table className="table">
+                  <table className="table table-vcenter table-mobile-md card-table">
                     <thead>
                       <tr>
                         <th>Customer Name</th>
