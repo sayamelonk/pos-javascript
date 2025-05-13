@@ -10,7 +10,7 @@ import toast from "react-hot-toast";
 import Api from "../../services/api";
 
 // import handler errors
-import { handlerErrors } from "../../utils/handlerErrors";
+import { handleErrors } from "../../utils/handleErrors";
 
 // eslint-disable-next-line react/prop-types
 export default function CategoryEdit({ fetchData, categoryId }) {
@@ -119,7 +119,7 @@ export default function CategoryEdit({ fetchData, categoryId }) {
       })
       .catch((error) => {
         //assign error to function "handleErrors"
-        handlerErrors(error.response.data, setErrors);
+        handleErrors(error.response.data, setErrors);
       });
   };
 

@@ -10,7 +10,7 @@ import toast from "react-hot-toast";
 import Api from "../../services/api";
 
 // import handler error
-import { handlerErrors } from "../../utils/handlerErrors";
+import { handleErrors } from "../../utils/handleErrors";
 
 // eslint-disable-next-line react/prop-types
 export default function CategoryCreate({ fetchData }) {
@@ -100,7 +100,7 @@ export default function CategoryCreate({ fetchData }) {
       })
       .catch((error) => {
         // assign error to function "handleErrrors"
-        handlerErrors(error.response.data, setErrors);
+        handleErrors(error.response.data, setErrors);
       });
   };
 
