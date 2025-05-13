@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { useStore } from "../../stores/user";
 
 // import handler error
-import { handlerErrors } from "../../utils/handlerErrors";
+import { handleErrors } from "../../utils/handleErrors";
 
 export default function Login() {
   // navigate
@@ -45,7 +45,7 @@ export default function Login() {
         }
 
         // assign error to function "handleErrors"
-        handlerErrors(error.response.data, setErrors);
+        handleErrors(error.response.data, setErrors);
       });
   };
 
