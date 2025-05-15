@@ -13,18 +13,8 @@ import Api from "../../../services/api";
 // import moneyFormat
 import moneyFormat from "../../../utils/moneyFormat";
 
-// format date function
-const formatDate = (dateString) => {
-  if (!dateString) return "";
-  const date = new Date(dateString);
-  return date.toLocaleString("id-ID", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-};
+// import formatDate
+import formatDate from "../../../utils/formatDate";
 
 const Print = () => {
   // get params
