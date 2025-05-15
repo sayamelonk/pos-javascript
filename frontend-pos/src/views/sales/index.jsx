@@ -103,7 +103,7 @@ export default function Sales() {
                       <div className="col-md-2">
                         <div className="mb-3">
                           <label className="form-label fw-bold fw-bold text-white">
-                            *
+                            &nbsp;
                           </label>
                           <button
                             type="submit"
