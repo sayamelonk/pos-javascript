@@ -102,9 +102,7 @@ export default function Sales() {
                       </div>
                       <div className="col-md-2">
                         <div className="mb-3">
-                          <label className="form-label fw-bold fw-bold text-white">
-                            &nbsp;
-                          </label>
+                          <label>&nbsp;</label>
                           <button
                             type="submit"
                             className="btn btn-primary btn-md border-0 shadow w-100 rounded"
