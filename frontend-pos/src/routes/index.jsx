@@ -13,6 +13,8 @@ import CategoriesIndex from "../views/categories";
 import ProductsIndex from "../views/products";
 import CustomersIndex from "../views/customers";
 import UsersIndex from "../views/users";
+import TransactionsIndex from "../views/transactions";
+import Print from "../views/transactions/print/print";
 
 export default function AppRoutes() {
   // destruct state "token" from store
@@ -49,6 +51,16 @@ export default function AppRoutes() {
       <Route
         path="/users"
         element={token ? <UsersIndex /> : <Navigate to="/" replace />}
+      />
+      {/* {route "/transactions"} */}
+      <Route
+        path="/transactions"
+        element={token ? <TransactionsIndex /> : <Navigate to="/" replace />}
+      />
+      {/* {route "/transactions/print"} */}
+      <Route
+        path="/transactions/print"
+        element={token ? <Print /> : <Navigate to="/" replace />}
       />
     </Routes>
   );
