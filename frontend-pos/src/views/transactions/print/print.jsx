@@ -54,10 +54,6 @@ const Print = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log(invoice);
-  console.log(transaction);
-  console.log(transactionDetails);
-
   return (
     <>
       <div className="content">
