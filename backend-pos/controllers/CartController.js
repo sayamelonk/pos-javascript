@@ -23,6 +23,7 @@ const findCarts = async (req, res) => {
             title: true,
             buy_price: true,
             sell_price: true,
+            stock: true,
             image: true,
           },
         },
